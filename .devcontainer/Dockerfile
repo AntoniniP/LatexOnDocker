@@ -1,39 +1,28 @@
-# See here for image contents: https://github.com/microsoft/vscode-dev-containers/tree/v0.155.1/containers/ubuntu/.devcontainer/base.Dockerfile
+# See here for image contents: https://github.com/microsoft/vscode-dev-containers/tree/v0.163.1/containers/ubuntu/.devcontainer/base.Dockerfile
 
 # [Choice] Ubuntu version: bionic, focal
-ARG VARIANT="ubuntu"
-FROM mcr.microsoft.com/vscode/devcontainers/base:${VARIANT}
+ARG VARIANT="focal"
+FROM mcr.microsoft.com/vscode/devcontainers/base:0-${VARIANT}
 
 # [Optional] Uncomment this section to install additional OS packages.
 # RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
 #     && apt-get -y install --no-install-recommends <your-package-list-here>
 
+
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get update -q \
-    && apt-get install -qy build-essential wget libfontconfig1 \
-    && apt-get install -qy python \ 
-    && rm -rf /var/lib/apt/lists/*
+RUN apt-get update -q
 
-# python-pip
+RUN apt-get install -qy build-essential curl
 
-# Install TexLive with scheme-basic
-RUN wget http://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz; \
-	mkdir /install-tl-unx; \
-	tar -xvf install-tl-unx.tar.gz -C /install-tl-unx --strip-components=1; \
-    echo "selected_scheme scheme-basic" >> /install-tl-unx/texlive.profile; \
-	/install-tl-unx/install-tl -profile /install-tl-unx/texlive.profile; \
-    rm -r /install-tl-unx; \
-	rm install-tl-unx.tar.gz
+RUN apt-get install -qy libfontconfig1-dev libgraphite2-dev libharfbuzz-dev libicu-dev libssl-dev zlib1g-dev
 
-ENV PATH="/usr/local/texlive/2020/bin/x86_64-linux:${PATH}"
+RUN rm -rf /var/lib/apt/lists/*
 
-ENV HOME /data
-WORKDIR /data
+# USER vscode
 
-# Install latex packages
-RUN tlmgr install latexmk
+RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --profile minimal
 
-VOLUME ["/data"]
+ENV PATH="/root/.cargo/bin:${PATH}"
 
-RUN tlmgr install texliveonfly erewhon
+RUN cargo install tectonic
