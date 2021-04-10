@@ -1,0 +1,18 @@
+{
+    "latex-workshop.latex.recipe.default": "tectonic",
+    "latex-workshop.latex.tools": [
+        {
+            "name": "tectonic",
+            "command": "tectonic",
+            "args": [
+                "--synctex",
+                "--keep-logs",
+                "%DOC%.tex"
+            ],
+            "env": {"PATH" : "/home/vscode/.cargo/bin/"}
+        }
+    ],
+    
+}
+
+

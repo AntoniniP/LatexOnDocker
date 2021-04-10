@@ -10,6 +10,6 @@ curl https://sh.rustup.rs -sSf | sh -s -- -y --profile minimal
 
 # ENV PATH="/root/.cargo/bin:${PATH}"
 
-source $HOME/.cargo/env
+# source $HOME/.cargo/env
 
-cargo install tectonic
+# cargo install tectonic

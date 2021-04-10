@@ -1,5 +1,3 @@
-whoami
-
 source $HOME/.cargo/env
 
 rustup update
